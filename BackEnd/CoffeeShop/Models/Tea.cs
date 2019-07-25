@@ -12,7 +12,6 @@ namespace CoffeeShop.Models
         public int TeaPrice { get; set; }
         public int TeaCalories { get; set; }
 
-
     
     }
 }
