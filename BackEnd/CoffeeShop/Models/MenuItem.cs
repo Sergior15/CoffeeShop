@@ -11,6 +11,6 @@ namespace CoffeeShop.Models
         public string FoodorBev { get; set; }
         public string Image { get; set; }
        
-        
+        public virtual List<FBDetails> FBDetails { get; set; }
     }
 }
