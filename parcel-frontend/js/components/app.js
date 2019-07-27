@@ -86,6 +86,20 @@ function menuItems(){
             })
         }
     })
+     document.querySelector('#root').addEventListener("click", function(){
+          if(event.target.classList.contains('add-fbItem_submit')){
+            const menuitemId = event.target.parentElement.querySelector('.add-menuitem_Id').value;
+            const fobtype = event.target.parentElement.querySelector('.add-fbItem_name').value;
+            const data = {
+                 menuItemId: menuitemId,
+                 fbDetailsId: 0,
+                 foodorBev: fobtype
+             }
+            apiActions.postRequest("https://localhost:44373/api/menuItems/" + menuitemId, data, menuItems => {
+                  document.querySelector('#root').innerHTML = MenuItems(menuItems);
+               })
+          }
+      })
 };
 function fbDetail(){
     
@@ -97,7 +111,6 @@ function fbDetail(){
         })
     })
 
-    
 
 }
 

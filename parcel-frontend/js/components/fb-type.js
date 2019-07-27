@@ -6,7 +6,7 @@ export default function FbDetail (fbtypes){
         return `
             <fbitems>
                
-                <h4>${fbtype.fBDescription}</h4>
+                <h4>${fbtype.fbDescription}</h4>
                 
                 <h4>${fbtype.price}</h4>
                 
