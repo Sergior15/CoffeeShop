@@ -11,6 +11,7 @@ function pageBuild(){
     home();
     menuItems();
     fbType();
+    
 }
 
 function home(){
@@ -96,4 +97,6 @@ function fbType(){
 
     
 }
+
+
 

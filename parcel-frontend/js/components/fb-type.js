@@ -2,16 +2,16 @@ export default function fbTypes (fbTypes){
     return `
     <h1>Food and Beverages</h1>
     <fbitems>
-        ${fbTypes.map(fBDetails => {
+        ${fbTypes.map(fbDetails => {
         return `
             <fbitems>
                
-                <h4>${fBDetails.fbDescription}</h4>
+                <h4>${fbDetails.fBDescription}</h4>
                 
-                <h4>$ ${fBDetails.price}</h4>
+                <h4>$ ${fbDetails.price}</h4>
                 
-                <h4>${fBDetails.calories} calories</h4>
-                <input class='select-menuItem__id' type='hidden' value="${fBDetails.fBDetailsId}">     
+                <h4>${fbDetails.calories} Calories</h4>
+                <input class='fbdetails__id' type='hidden' value="${fbDetails.fBDetailsId}">     
             </fbitems>
         `;
     })
