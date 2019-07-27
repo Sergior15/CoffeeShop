@@ -89,7 +89,7 @@ function fbType(){
     const app = document.getElementById('root');
     const fobtype = document.getElementById('nav_fb-type');
     fobtype.addEventListener('click', function(){
-        apiActions.getRequest("https://localhost:44373/api/fbDetails", fbDetails => {
+        apiActions.getRequest("https://localhost:44373/api/fBDetails", fbDetails => {
             app.innerHTML = fbTypes(fbDetails);
         })
     })
