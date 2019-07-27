@@ -2,7 +2,7 @@ import Home from './home';
 import MenuItems from './menu-item';
 import apiActions from '../api/api-actions';
 import singlemenuitem from './singlemenu-item';
-import fbTypes from './fb-type';
+import FbDetail from './fb-type';
 
 
 pageBuild();
@@ -10,7 +10,7 @@ pageBuild();
 function pageBuild(){
     home();
     menuItems();
-    fbType();
+    fbDetail();
     
 }
 
@@ -85,13 +85,13 @@ function menuItems(){
         }
     })
 };
-function fbType(){
+function fbDetail(){
     
     const app = document.getElementById('root');
     const fobtype = document.getElementById('nav_fb-type');
     fobtype.addEventListener('click', function(){
         apiActions.getRequest("https://localhost:44373/api/fBDetails", fbDetails => {
-            app.innerHTML = fbTypes(fbDetails);
+            app.innerHTML = FbDetail(fbDetails);
         })
     })
 

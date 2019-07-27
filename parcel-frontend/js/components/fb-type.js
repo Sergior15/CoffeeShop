@@ -1,21 +1,22 @@
-export default function fbTypes (fbTypes){
+export default function FbDetail (fbtypes){
     return `
     <h1>Food and Beverages</h1>
     <fbitems>
-        ${fbTypes.map(fbDetails => {
+        ${fbtypes.map(fbtype => {
         return `
             <fbitems>
                
-                <h4>${fbDetails.fBDescription}</h4>
+                <h4>${fbtype.fBDescription}</h4>
                 
-                <h4>$ ${fbDetails.price}</h4>
+                <h4>${fbtype.price}</h4>
                 
-                <h4>${fbDetails.calories} Calories</h4>
-                <input class='fbdetails__id' type='hidden' value="${fbDetails.fBDetailsId}">     
+                <h4>${fbtype.calories} Calories</h4>
+                <input class='fbdetails__id' type='hidden' value="${fbtype.fBDetailsId}">     
             </fbitems>
         `;
+
     })
     .join("")}
-        
+    </fbitems>    
     `
 }
