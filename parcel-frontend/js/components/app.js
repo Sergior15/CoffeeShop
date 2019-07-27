@@ -1,5 +1,6 @@
 import Home from './home';
 import MenuItems from './menu-item';
+import apiActions from '../api/api-actions';
 
 
 
@@ -24,7 +25,7 @@ function menuItems(){
     const app = document.getElementById('root');
     const menuItems = document.getElementById('nav_menu-item');
     menuItems.addEventListener('click', function(){
-        ApiAction.getRequest("https://localhost:44373/api/menuItems", menuItems => {
+        apiActions.getRequest("https://localhost:44373/api/menuItems", menuItems => {
             app.innerHTML = MenuItems(menuItems);
         })
     })
@@ -38,7 +39,7 @@ function menuItems(){
                 FoodorBev: menuItem,
                 Image: image
             }
-            ApiAction.postRequest("https://localhost:44373/api/menuItems/", data, menuItems => {
+            apiActions.postRequest("https://localhost:44373/api/menuItems/", data, menuItems => {
                 document.querySelector('#root').innerHTML = MenuItems(menuItems);
             })
         }
@@ -48,11 +49,25 @@ function menuItems(){
         if (event.target.classList.contains("delete-menuItemId__delete")) {
           const menuItem = event.target.parentElement.querySelector(".delete-menuItem__id")
             .value;
-          ApiAction.deleteRequest("https://localhost:44373/api/menuItems/"+ artist,artist,
-            artists => {
-                document.querySelector('#app').innerHTML = Artists(artists);
+          apiActions.deleteRequest("https://localhost:44373/api/menuItems/"+ menuItem,menuItem,
+            menuItems => {
+                document.querySelector('#root').innerHTML = MenuItems(menuItems);
             },           
             );
         }
       });
-}
+
+      document.querySelector('#root').addEventListener("click", function(){
+        if(event.target.classList.contains('edit-menuItem_submit')){
+            const menuItem = event.target.parentElement.querySelector('.edit-menuItem__Id').value;            
+            const name = event.target.parentElement.querySelector('.edit-menuItem_name').value;
+            const data = {
+                menuItemId: menuItem,
+                FoodorBev: name,                
+            }
+            apiActions.putRequest("https://localhost:44373/api/menuItems/"+ menuItem, data, menuItems => {
+                document.querySelector('#root').innerHTML = MenuItems(menuItems);
+            })
+        }
+    })
+};
