@@ -3,6 +3,7 @@ import MenuItems from './menu-item';
 import apiActions from '../api/api-actions';
 import singlemenuitem from './singlemenu-item';
 import FbDetail from './fb-type';
+import Flavors from './flavor';
 
 
 pageBuild();
@@ -11,6 +12,7 @@ function pageBuild(){
     home();
     menuItems();
     fbDetail();
+    flavors();
     
 }
 
@@ -90,12 +92,23 @@ function fbDetail(){
     const app = document.getElementById('root');
     const fobtype = document.getElementById('nav_fb-type');
     fobtype.addEventListener('click', function(){
-        apiActions.getRequest("https://localhost:44373/api/fBDetails", fbDetails => {
-            app.innerHTML = FbDetail(fbDetails);
+        apiActions.getRequest("https://localhost:44373/api/fBDetails", fbDets => {
+            app.innerHTML = FbDetail(fbDets);
         })
     })
 
     
+
+}
+
+function flavors(){
+    const app = document.getElementById('root');
+    const flav = document.getElementById('nav_flavor');
+    flav.addEventListener('click', function(){
+        apiActions.getRequest("https://localhost:44373/api/flavors", flavors => {
+            app.innerHTML = Flavors(flavors);
+        })
+    })
 }
 
 

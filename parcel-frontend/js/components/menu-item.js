@@ -17,7 +17,8 @@ export default function MenuItems(menuItems){
                 <input class='edit-menuItem__Id' type='hidden' value="${menuItem.menuItemId}">
                 <input class="edit-menuItem_name" type='text' value = "${menuItem.foodorBev}"> 
                 <button class="edit-menuItem_submit">Edit Menu Item</button>
-                </menuiteminput>        
+                </menuiteminput>   
+                </br>     
             </menuitems>
         `;
     })

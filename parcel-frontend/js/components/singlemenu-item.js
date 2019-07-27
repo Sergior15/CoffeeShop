@@ -1,19 +1,20 @@
-export default function singlemenuitem(MenuItem){
+export default function singlemenuitem(singleMenuItem){
     return `
-    <div id='name-info'><h3>${MenuItem.FoodorBev}</h3>
+    <div id='name-info'><h3>${singleMenuItem.FoodorBev}</h3>
     </br>
-    <img src='${MenuItem.image}' id='main-image' alt='Menu Item image'></img>
+    <img src='${singleMenuItem.image}' id='main-image' alt='Menu Item image'></img>
+    <input class='single-menuitem_id' type='hidden' value="${singleMenuItem.menuItemId}"/>
     
     
     <ul id='FBDetails-list'>
-        ${MenuItem.fBDetails.map(fBDetail => {
+        ${singleMenuItem.fbtypes.map(fbtype => {
             return `
                 <li>
-                    <input class='fbDetail_Id' type= 'hidden' value='${fBDetail.fBDetailsId}'>
-                    <h4 class='edit-fbDetails_description'>${fBDetail.FBDescription}</h4>
-                    <h4 class='fbDetail_price'>${fBDetail.price}</h4>
-                    <h4 class='fbDetail_calories'>${fBDetail.calories}</h4>
-                    <h4 class='menuitem_Id' type='hidden' value='${fBDetail.MenuItemId}'
+                    <input class='fbDetail_Id' type= 'hidden' value='${fbtype.fBDetailsId}'>
+                    <h4 class='edit-fbDetails_description'>${fbtype.fBDescription}</h4>
+                    <h4 class='fbDetail_price'>${fbtype.price}</h4>
+                    <h4 class='fbDetail_calories'>${fbtype.calories}</h4>
+                    <h4 class='menuitem_Id' type='hidden' value='${fbtype.menuItemId}'
                 </li>
     `;
         })
