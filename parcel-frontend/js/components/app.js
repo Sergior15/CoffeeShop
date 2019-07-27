@@ -38,9 +38,21 @@ function menuItems(){
                 FoodorBev: menuItem,
                 Image: image
             }
-            ApiAction.postRequest("https://localhost:44373/api/menuItems", data, menuItems => {
+            ApiAction.postRequest("https://localhost:44373/api/menuItems/", data, menuItems => {
                 document.querySelector('#root').innerHTML = MenuItems(menuItems);
             })
         }
     })
+
+    document.querySelector('#root').addEventListener("click", function() {
+        if (event.target.classList.contains("delete-menuItemId__delete")) {
+          const menuItem = event.target.parentElement.querySelector(".delete-menuItem__id")
+            .value;
+          ApiAction.deleteRequest("https://localhost:44373/api/menuItems/"+ artist,artist,
+            artists => {
+                document.querySelector('#app').innerHTML = Artists(artists);
+            },           
+            );
+        }
+      });
 }
