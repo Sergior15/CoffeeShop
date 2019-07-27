@@ -61,7 +61,7 @@ namespace CoffeeShop.Controller_s_
 
         // DELETE: api/FBDetails/5
         [HttpDelete]
-        public ActionResult<IEnumerable<Flavor>> DeleteFlavor([FromRoute] Flavor flavor)
+        public ActionResult<IEnumerable<Flavor>> DeleteFlavor([FromBody] Flavor flavor)
         {
 
             _context.Flavors.Remove(flavor);

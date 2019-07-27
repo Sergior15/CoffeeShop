@@ -1,8 +1,8 @@
 import Home from './home';
 import MenuItems from './menu-item';
 import apiActions from '../api/api-actions';
-
-
+import singlemenuitem from './singlemenu-item';
+import fbTypes from './fb-type';
 
 
 pageBuild();
@@ -10,6 +10,7 @@ pageBuild();
 function pageBuild(){
     home();
     menuItems();
+    fbType();
 }
 
 function home(){
@@ -45,29 +46,54 @@ function menuItems(){
         }
     })
 
-    document.querySelector('#root').addEventListener("click", function() {
+    document.getElementById('root').addEventListener("click", function() {
         if (event.target.classList.contains("delete-menuItemId__delete")) {
-          const menuItem = event.target.parentElement.querySelector(".delete-menuItem__id")
-            .value;
-          apiActions.deleteRequest("https://localhost:44373/api/menuItems/"+ menuItem,menuItem,
+          const menuItem = event.target.parentElement.querySelector(".delete-menuItem__id").value;
+          const data ={
+              MenuItemId: menuItem,
+          };
+          apiActions.deleteRequest("https://localhost:44373/api/menuItems", data,
             menuItems => {
                 document.querySelector('#root').innerHTML = MenuItems(menuItems);
             },           
             );
         }
-      });
+    });
 
-      document.querySelector('#root').addEventListener("click", function(){
-        if(event.target.classList.contains('edit-menuItem_submit')){
+    document.getElementById('root').addEventListener("click", function(){
+         if(event.target.classList.contains('edit-menuItem_submit')){
             const menuItem = event.target.parentElement.querySelector('.edit-menuItem__Id').value;            
             const name = event.target.parentElement.querySelector('.edit-menuItem_name').value;
             const data = {
                 menuItemId: menuItem,
                 FoodorBev: name,                
             }
-            apiActions.putRequest("https://localhost:44373/api/menuItems/"+ menuItem, data, menuItems => {
+            apiActions.putRequest("https://localhost:44373/api/menuItems", data, menuItems => {
                 document.querySelector('#root').innerHTML = MenuItems(menuItems);
             })
         }
     })
+
+    document.getElementById('root').addEventListener('click', function(){
+        if (event.target.classList.contains('select-menuItemId__select')){
+            const menuitemId = event.target.parentElement.querySelector('.select-menuItem__id').value
+            apiActions.getRequest('https://localhost:44373/api/menuItems/'+ menuitemId, 
+            MenuItem =>{
+                document.querySelector('#root').innerHTML = singlemenuitem(MenuItem)
+            })
+        }
+    })
 };
+function fbType(){
+    
+    const app = document.getElementById('root');
+    const fobtype = document.getElementById('nav_fb-type');
+    fobtype.addEventListener('click', function(){
+        apiActions.getRequest("https://localhost:44373/api/fbDetails", fbDetails => {
+            app.innerHTML = fbTypes(fbDetails);
+        })
+    })
+
+    
+}
+
