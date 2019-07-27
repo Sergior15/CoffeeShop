@@ -3,9 +3,8 @@ export default function FbDetail (fbtypes){
     <h1>Food and Beverages</h1>
     <fbitems>
         ${fbtypes.map(fbtype => {
-        return `
+            return `
             <fbitems>
-               
                 <h4>${fbtype.fBDescription}</h4>
                 
                 <h4>${fbtype.price}</h4>
