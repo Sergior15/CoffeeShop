@@ -1,22 +1,20 @@
-import FbDetail from "./fb-type";
-
-export default function AlbumsByArtist(detailbyid, menuItemId){
+export default function DetailbyMenuItem(detailbyid, menuItemId){
     return `
     
     <fbsbyid>
     ${detailbyid.map(fbDetail => {
         return `
         <fbbyid>
-            <p>${fbDetail.fBDescription}</p>
-            <p>${fbDetail.price}</p>
-            <p>${fbDetail.calories}</p>
+            <p>${fbDetail.fbDescription}</p>
+            <p>$ ${fbDetail.price}</p>
+            <p>${fbDetail.calories} calories</p>
             <fbbyidinput>  
-            <button class="select-fbDetail_select">View Flavors</button>
-            <input class='select-fbDetail__id' type='hidden' value="${fbDetail.fBDetailsId}">
-            <input class='delete-fbDetail__id' type='hidden' value="${fbDetail.fBDetailsId}">
+            <button class="select-fbDetailId_select">View Flavors</button>
+            <input class='select-fbDetail__id' type='hidden' value="${fbDetail.fbDetailsId}">
+            <input class='delete-fbDetail__id' type='hidden' value="${fbDetail.fbDetailsId}">
             <button class='delete-fbDetailId__delete'>Delete Food/Beverage.</button>
             </br>    
-            <input class='edit-fbDetail_fbDetailId' type='hidden' value="${fbDetail.albumId}">
+            <input class='edit-fbDetail_fbDetailId' type='hidden' value="${fbDetail.fbDetailsId}">
             <input class='edit-fbDetail_menuItemId' type='hidden' value="${menuItemId}">
             <input type="text" class="edit-fbDetail_description" placeholder="Edit Food/Beverage name.">
             <input type="text" class="edit-fbDetail_calories" placeholder="Edit calories.">

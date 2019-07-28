@@ -2,21 +2,18 @@ export default function FbDetail (fbtypes){
     return `
     <h1>Food and Beverages</h1>
     <fbitems>
-        ${fbtypes.map(fbtype => {
+        ${fbtypes.map(fbDetails => {
         return `
-            <fbitems>
-               
-                <h4>${fbtype.fbDescription}</h4>
-                
-                <h4>${fbtype.price}</h4>
-                
-                <h4>${fbtype.calories} Calories</h4>
-                <input class='fbdetails__id' type='hidden' value="${fbtype.fBDetailsId}">     
-            </fbitems>
+            <album>
+                <p>${fbDetails.fbDescription}</p>
+                <arl> $${fbDetails.price}</arl> 
+                <p>${fbDetails.calories} calories</p>
+                <input class='select-fbDetail__id' type='hidden' value="${fbDetails.albumId}">
+                <button class="select-fbDetail_select">View Flavors</button>
+            </album>                         
         `;
-
     })
     .join("")}
-    </fbitems>    
-    `
-}
+    </albums>
+`
+};
