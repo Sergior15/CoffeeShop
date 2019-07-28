@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CoffeeShop;
 using CoffeeShop.Models;
 
-namespace CoffeeShop.Controller_s_
+namespace CoffeeShop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -30,49 +30,77 @@ namespace CoffeeShop.Controller_s_
 
         // GET: api/FBDetails/5
         [HttpGet("{id}")]
-        public ActionResult<FBDetails> GetFBDetails(int id)
+        public async Task<IActionResult> GetFBDetails([FromRoute] int id)
         {
-            return _context.FBDetails.Single(a => a.FBDetailsId == id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var fbdetail = await _context.FBDetails.FindAsync(id);
+
+            if (fbdetail == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(fbdetail);
         }
 
         // PUT: api/FBDetails/5
-        [HttpPut]
-        public ActionResult<IEnumerable<FBDetails>> PutFBDetails([FromBody] FBDetails fBDetails)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutFBDetails([FromRoute] int id, [FromBody] FBDetails fBDetails)
         {
-            _context.FBDetails.Update(fBDetails);
-              
-            _context.SaveChanges();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            return _context.FBDetails.ToList();
+            if (id != fBDetails.FBDetailsId)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(fBDetails).State = EntityState.Modified;
+
+          
+            return NoContent();
         }
+
 
         // POST: api/FBDetails
         [HttpPost]
-        public ActionResult<MenuItem> PostFBDetails([FromBody] FBDetails fBDetails)
+        public async Task<IActionResult> PostFBDetails([FromBody] FBDetails fBDetails)
         {
-           
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             _context.FBDetails.Add(fBDetails);
+            await _context.SaveChangesAsync();
 
-            _context.SaveChanges();
-
-            return _context.MenuItems.Single(a => a.MenuItemId == fBDetails.MenuItemId);
+            return CreatedAtAction("GetAlbum", new { id = fBDetails.FBDetailsId }, fBDetails);
         }
-
         // DELETE: api/FBDetails/5
-        [HttpDelete]
-        public ActionResult<IEnumerable<FBDetails>> DeleteFBDetails([FromRoute] FBDetails fBDetails)
-        {                             
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFBDetails([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var fBDetails = await _context.FBDetails.FindAsync(id);
+            if (fBDetails == null)
+            {
+                return NotFound();
+            }
 
             _context.FBDetails.Remove(fBDetails);
+            await _context.SaveChangesAsync();
 
-            _context.SaveChanges();
-
-            return _context.FBDetails.ToList();
-        }
-
-        private bool FBDetailsExists(int id)
-        {
-            return _context.FBDetails.Any(e => e.FBDetailsId == id);
+            return Ok(fBDetails);
         }
     }
 }

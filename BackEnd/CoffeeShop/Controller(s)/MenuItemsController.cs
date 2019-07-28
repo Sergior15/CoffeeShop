@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CoffeeShop;
 using CoffeeShop.Models;
 
-namespace CoffeeShop.Controller_s_
+namespace CoffeeShop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -30,43 +30,91 @@ namespace CoffeeShop.Controller_s_
 
         // GET: api/MenuItems/5
         [HttpGet("{id}")]
-        public ActionResult<MenuItem> GetMenuItem(int id)
+        public async Task<IActionResult> GetMenuItem([FromRoute] int id)
         {
-            return _context.MenuItems.Single(a => a.MenuItemId == id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var menuItem = await _context.MenuItems.FindAsync(id);
+
+            if (menuItem == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(menuItem);
         }
 
         // PUT: api/MenuItems/5
-        [HttpPut]
-        public ActionResult<IEnumerable<MenuItem>> PutMenuItem([FromBody] MenuItem menuItem)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutMenuItem([FromRoute] int id, [FromBody] MenuItem menuItem)
         {
-            _context.MenuItems.Update(menuItem);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            _context.SaveChanges();          
+            if (id != menuItem.MenuItemId)
+            {
+                return BadRequest();
+            }
 
-            return _context.MenuItems.ToList();
+            _context.Entry(menuItem).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MenuItemExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
         // POST: api/MenuItems
         [HttpPost]
-        public ActionResult<IEnumerable<MenuItem>> PostMenuItem([FromBody] MenuItem menuItem)
+        public async Task<IActionResult> PostMenuItem([FromBody] MenuItem menuItem)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             _context.MenuItems.Add(menuItem);
+            await _context.SaveChangesAsync();
 
-            _context.SaveChanges();
-
-            return _context.MenuItems.ToList();
+            return CreatedAtAction("GetMenuItem", new { id = menuItem.MenuItemId }, menuItem);
         }
 
         // DELETE: api/MenuItems/5
-        [HttpDelete]
-        public ActionResult<IEnumerable<MenuItem>> DeleteMenuItem(MenuItem menuItem)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMenuItem([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var menuItem = await _context.MenuItems.FindAsync(id);
+            if (menuItem == null)
+            {
+                return NotFound();
+            }
 
             _context.MenuItems.Remove(menuItem);
+            await _context.SaveChangesAsync();
 
-            _context.SaveChanges();
-
-            return _context.MenuItems.ToList();
+            return Ok(menuItem);
         }
 
         private bool MenuItemExists(int id)
