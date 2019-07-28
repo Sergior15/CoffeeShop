@@ -30,44 +30,49 @@ namespace CoffeeShop.Controller_s_
 
         // GET: api/FBDetails/5
         [HttpGet("{id}")]
-        public ActionResult<FBDetails> GetFBDetails(int id)
+        public IEnumerable<FBDetails> GetfbDetail([FromRoute] int id)
         {
-            return _context.FBDetails.Single(a => a.FBDetailsId == id);
+            return _context.FBDetails.Where(r => r.MenuItemId == id);
         }
 
         // PUT: api/FBDetails/5
-        [HttpPut]
-        public ActionResult<IEnumerable<FBDetails>> PutFBDetails([FromBody] FBDetails fBDetails)
+        [HttpPut("{id}")]
+        public async Task<IEnumerable<FBDetails>> PutfbDetail([FromRoute] int id, [FromBody] FBDetails fbdetail)
         {
-            _context.FBDetails.Update(fBDetails);
-              
-            _context.SaveChanges();
 
-            return _context.FBDetails.ToList();
+
+            _context.Entry(fbdetail).State = EntityState.Modified;
+
+
+            await _context.SaveChangesAsync();
+
+
+            return _context.FBDetails.Where(r => r.MenuItemId == fbdetail.MenuItemId);
         }
 
         // POST: api/FBDetails
         [HttpPost]
-        public ActionResult<MenuItem> PostFBDetails([FromBody] FBDetails fBDetails)
+        public async Task<IEnumerable<FBDetails>> PostFbDetailAsync([FromBody] FBDetails fbdetail)
         {
-           
-            _context.FBDetails.Add(fBDetails);
 
-            _context.SaveChanges();
+            _context.FBDetails.Add(fbdetail);
+            await _context.SaveChangesAsync();
 
-            return _context.MenuItems.Single(a => a.MenuItemId == fBDetails.MenuItemId);
+            return _context.FBDetails.Where(r => r.MenuItemId == fbdetail.MenuItemId);
         }
 
         // DELETE: api/FBDetails/5
-        [HttpDelete]
-        public ActionResult<IEnumerable<FBDetails>> DeleteFBDetails([FromRoute] FBDetails fBDetails)
-        {                             
+        [HttpDelete("{id}")]
+        public async Task<IEnumerable<FBDetails>> DeleteFbdetail([FromRoute] int id)
+        {
 
-            _context.FBDetails.Remove(fBDetails);
+            var fbdetail = await _context.FBDetails.FindAsync(id);
 
-            _context.SaveChanges();
 
-            return _context.FBDetails.ToList();
+            _context.FBDetails.Remove(fbdetail);
+            await _context.SaveChangesAsync();
+
+            return _context.FBDetails.Where(r => r.MenuItemId == fbdetail.MenuItemId);
         }
 
         private bool FBDetailsExists(int id)

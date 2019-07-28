@@ -30,45 +30,49 @@ namespace CoffeeShop.Controller_s_
 
         // GET: api/Flavors/5
         [HttpGet("{id}")]
-        public ActionResult<Flavor> GetFlavor(int id)
+        public IEnumerable<Flavor> GetFbDetail([FromRoute] int id)
         {
-
-            return _context.Flavors.Single(a => a.FlavorId == id);
+            return _context.Flavors.Where(r => r.FBDetailsId == id);
         }
 
         // PUT: api/Flavors/5
-        [HttpPut]
-        public ActionResult<IEnumerable<Flavor>> PutFlavor([FromBody] Flavor flavor)
+        [HttpPut("{id}")]
+        public async Task<IEnumerable<Flavor>> PutFbDetails([FromRoute] int id, [FromBody] Flavor flavor)
         {
-            _context.Flavors.Update(flavor);
 
-            _context.SaveChanges();
 
-            return _context.Flavors.ToList();
+            _context.Entry(flavor).State = EntityState.Modified;
+
+
+            await _context.SaveChangesAsync();
+
+
+            return _context.Flavors.Where(r => r.FBDetailsId == flavor.FBDetailsId);
         }
 
         // POST: api/FBDetails
         [HttpPost]
-        public ActionResult<FBDetails> PostFlavor([FromBody] Flavor flavor)
+        public async Task<IEnumerable<Flavor>> PostFlavorAsync([FromBody] Flavor flavor)
         {
 
             _context.Flavors.Add(flavor);
+            await _context.SaveChangesAsync();
 
-            _context.SaveChanges();
-
-            return _context.FBDetails.Single(a => a.MenuItemId == flavor.FBDetailsId);
+            return _context.Flavors.Where(r => r.FBDetailsId == flavor.FBDetailsId);
         }
-
         // DELETE: api/FBDetails/5
-        [HttpDelete]
-        public ActionResult<IEnumerable<Flavor>> DeleteFlavor([FromBody] Flavor flavor)
+        [HttpDelete("{id}")]
+        public async Task<IEnumerable<Flavor>> DeleteFlavor([FromRoute] int id)
         {
 
+
+            var flavor = await _context.Flavors.FindAsync(id);
+
+
             _context.Flavors.Remove(flavor);
+            await _context.SaveChangesAsync();
 
-            _context.SaveChanges();
-
-            return _context.Flavors.ToList();
+            return _context.Flavors.Where(r => r.FBDetailsId == flavor.FBDetailsId);
         }
 
         private bool FBDetailsExists(int id)
