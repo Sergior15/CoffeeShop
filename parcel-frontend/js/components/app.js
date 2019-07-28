@@ -114,7 +114,38 @@ function fbDetail(){
                 })
             }
     })
-    
+    document.getElementById('root').addEventListener("click", function() {
+        if (event.target.classList.contains("delete-fbitemId__delete")) {
+          const fbdetailid = event.target.parentElement.querySelector(".delete-fbitem_id").value;
+          
+          apiActions.deleteRequest("https://localhost:44373/api/fBDetails", fbdetailid,
+            fbItem => {
+                document.querySelector('#root').innerHTML = FbDetail(fbItem);
+            },           
+            );
+        }
+    });
+
+    document.querySelector('#root').addEventListener("click", function(){
+        if(event.target.classList.contains('edit-FBItem_submit')){
+            const fbitemId = event.target.parentElement.querySelector('.edit-fbItem__Id').value;
+            const fbitemName = event.target.parentElement.querySelector('.edit-fbItem_name').value;
+            const price = event.target.parentElement.querySelector('.edit-fbItem_price').value;
+            const calories = event.target.parentElement.querySelector('.edit-fbItem_calories').value;            
+            const menuId = event.target.parentElement.querySelector('.edit-fbItemMenu__Id').value;
+            const data = {
+                    fbDescription: fbitemName,
+                    fBDetailsId: fbitemId,                    
+                    price: price,
+                    calories: calories,
+                    
+                        }
+                apiActions.putRequest("https://localhost:44373/api/fBDetails/" + menuId, data, fbItems => {
+            document.querySelector('#root').innerHTML = singlemenuitem(fbItems);
+                })
+            }
+    })
+
 
 }
 

@@ -11,9 +11,17 @@ export default function singlemenuitem(singleMenuItem){
             return `
                 <li>
                     <input class='fbDetail_Id' type= 'hidden' value='${fbtype.fBDetailsId}'>
-                    <h4 class='edit-fbDetails_description'>${fbtype.fbDescription}</h4>
+                    <h4 class='fbDetails_description'>${fbtype.fbDescription}</h4>
                     <h4 class='fbDetail_price'>$ ${fbtype.price}</h4>
                     <h4 class='fbDetail_calories'>${fbtype.calories} Calories</h4>
+
+                    <input class='edit-fbItem__Id' type='hidden' value="${fbtype.fBDetailsId}">
+                    <input class='edit-fbItemMenu__Id' type='hidden' value="${fbtype.menuItemId}">  
+                <input class="edit-fbItem_name" type='text' value = "${fbtype.fbDescription}"> 
+                <input class="edit-fbItem_price" type='text' value = "${fbtype.price}"> 
+                <input class="edit-fbItem_calories" type='text' value = "${fbtype.calories}"> 
+                <button class="edit-FBItem_submit">Edit Food or Beverage Item</button>
+                </fbiteminput>  
                     </li>
                     `;
         })
