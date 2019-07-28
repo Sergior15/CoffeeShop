@@ -4,6 +4,7 @@ import apiActions from '../api/api-actions';
 import singlemenuitem from './singlemenu-item';
 import FbDetail from './fb-type';
 import Flavors from './flavor';
+import singlefbDetail from './singlefbDetail';
 
 
 pageBuild();
@@ -13,6 +14,8 @@ function pageBuild(){
     menuItems();
     fbDetail();
     flavors();
+    singleMenuitem();
+    fbByMenuItem();
     
 }
 
@@ -86,20 +89,6 @@ function menuItems(){
             })
         }
     })
-     document.querySelector('#root').addEventListener("click", function(){
-          if(event.target.classList.contains('add-fbItem_submit')){
-            const menuitemId = event.target.parentElement.querySelector('.add-menuitem_Id').value;
-            const fobtype = event.target.parentElement.querySelector('.add-fbItem_name').value;
-            const data = {
-                 menuItemId: menuitemId,
-                 fbDetailsId: 0,
-                 foodorBev: fobtype
-             }
-            apiActions.postRequest("https://localhost:44373/api/menuItems/" + menuitemId, data, menuItems => {
-                  document.querySelector('#root').innerHTML = MenuItems(menuItems);
-               })
-          }
-      })
 };
 function fbDetail(){
     
@@ -111,6 +100,102 @@ function fbDetail(){
         })
     })
 
+    document.getElementById('sidebar').addEventListener('click', function(){
+        if (event.target.classList.contains('album_name')){
+            const albumId = event.target.parentElement.querySelector('.album_id').value
+            
+            apiActions.getRequest('https://localhost:44301/api/album/'+ albumId, 
+            album =>{
+                document.querySelector('#main-info').innerHTML = SingleAlbum(album)
+            })
+        }
+    }) 
+}    
+    
+function singleMenuitem(){    
+    document.querySelector('#root').addEventListener("click", function(){
+         if(event.target.classList.contains('add-fbItem_submit')){
+           const menuitemId = event.target.parentElement.querySelector('.add-menuitem_Id').value;
+           const fobtype = event.target.parentElement.querySelector('.add-fbItem_name').value;
+           const data = {
+                menuItemId: menuitemId,
+                fbDetailsId: 0,
+                foodorBev: fobtype
+            }
+            console.log(data)
+           apiActions.postRequest("https://localhost:44373/api/menuItems/" + menuitemId, data, menuItems => {
+                 document.querySelector('#root').innerHTML = singlemenuitem(menuItems);
+            })
+        } 
+   })
+}
+
+function fbByMenuItem(){
+    
+    document.querySelector('#root').addEventListener("click", function() {
+        if (event.target.classList.contains("select-menuItemId__select")) {
+          const menuItemId = event.target.parentElement.querySelector(".select-menuItem__id")
+            .value;
+            console.log(menuItemId)
+          ApiAction.getRequest("https://localhost:44373/api/fbDetails/"+ menuItemId,
+            fbDetails => {
+                document.querySelector('#root').innerHTML = AlbumsByArtist(fbDetails, artistId);
+            },           
+            );
+        }
+      });
+
+      document.querySelector('#root').addEventListener("click", function(){
+        if(event.target.classList.contains('add-album_submit')){
+           const artist = event.target.parentElement.querySelector('.add-album_artistId').value;
+           const album = event.target.parentElement.querySelector('.add-album_albumname').value;
+           const label = event.target.parentElement.querySelector('.add-album_label').value;
+           const albumimage = event.target.parentElement.querySelector('.add-album_albumimage').value;
+           const data = {
+           artistId: artist, 
+           albumId: 0,
+           recordLabel: label,
+           albumTitle: album,
+           imageUrl: albumimage
+           }
+           ApiAction.postRequest("https://localhost:44378/api/albums/", data, albumlist => {
+            console.log(albumlist)
+            document.querySelector('#app').innerHTML = AlbumsByArtist(albumlist, data.artistId);
+           })      
+       }
+      })
+
+   document.querySelector('#app').addEventListener("click", function() {
+    if (event.target.classList.contains("delete-albumId__delete")) {
+      const album = event.target.parentElement.querySelector(".delete-album__id")
+        .value;
+      ApiAction.deleteRequest("https://localhost:44378/api/albums/"+ album, album,
+        albums => {
+            document.querySelector('#app').innerHTML = AlbumsByArtist(albums);
+        },           
+        );
+    }
+  });
+
+  document.querySelector('#app').addEventListener("click", function(){
+    if(event.target.classList.contains('edit-album_submit')){
+        const artist = event.target.parentElement.querySelector('.edit-album_artistId').value;
+        const album = event.target.parentElement.querySelector('.edit-album__albumId').value;
+        // const albumimage = event.target.parentElement.querySelector('.edit-album_albumimage').value;
+        const name = event.target.parentElement.querySelector('.edit-album_name').value;
+        const label = event.target.parentElement.querySelector('.edit-album_label').value;
+        const data = {
+            artistId: artist,
+            albumId: album,
+            albumTitle: name,
+            recordLabel: label
+            // ImageUrl: albumimage
+        }
+    ApiAction.putRequest("https://localhost:44378/api/albums/"+ album, data, albumlist => {
+        document.querySelector('#app').innerHTML = AlbumsByArtist(albumlist);
+    })
+    }
+   })
 
 }
 
