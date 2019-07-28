@@ -15,16 +15,19 @@ export default function singlemenuitem(singleMenuItem){
                     <h4 class='fbDetail_price'>$ ${fbtype.price}</h4>
                     <h4 class='fbDetail_calories'>${fbtype.calories} Calories</h4>
                     </li>
-                    <addmenuitem>             
-                            <input class='add-menuitem_Id' type='hidden' value='${fbtype.menuItemId}'>
-                            <input class="add-fbItem_name" type="text" placeholder="Add a Food/Beverage item.">
-                            <input class="add-fbItem_image" type="text" placeholder="Add a Food/Beverage image.">
-                            <button class="add-fbItem_submit"> Submit</button>
-                    </addmenuitem>
-    `;
+                    `;
         })
         .join("")}
-    </ul>
+        </ul>
+        <addfbitem>
+                
+                  <input class='add-_fbdetailsid' type='hidden' value='${singleMenuItem.fBDetailsId}'>             
+                <input class='add-menuitem_Id' type='hidden' value='${singleMenuItem.menuItemId}'>
+                <input class="add-fbItem_name" type="text" placeholder="Add a Food/Beverage item name.">
+                <input class="add-fbItem_price" type="text" placeholder="Add a Food/Beverage price.">
+                <input class="add-fbItem_calories" type="text" placeholder="Add Food/Beverage calories.">
+                <button class="add-fbItem_submit"> Submit</button>
+        </addfbitem>
     
     `
 }

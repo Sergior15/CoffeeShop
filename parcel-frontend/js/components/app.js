@@ -86,20 +86,6 @@ function menuItems(){
             })
         }
     })
-     document.querySelector('#root').addEventListener("click", function(){
-          if(event.target.classList.contains('add-fbItem_submit')){
-            const menuitemId = event.target.parentElement.querySelector('.add-menuitem_Id').value;
-            const fobtype = event.target.parentElement.querySelector('.add-fbItem_name').value;
-            const data = {
-                 menuItemId: menuitemId,
-                 fbDetailsId: 0,
-                 foodorBev: fobtype
-             }
-            apiActions.postRequest("https://localhost:44373/api/menuItems/" + menuitemId, data, menuItems => {
-                  document.querySelector('#root').innerHTML = MenuItems(menuItems);
-               })
-          }
-      })
 };
 function fbDetail(){
     
@@ -110,7 +96,25 @@ function fbDetail(){
             app.innerHTML = FbDetail(fbDets);
         })
     })
-
+     document.querySelector('#root').addEventListener("click", function(){
+        if(event.target.classList.contains('add-fbItem_submit')){
+            const fbitemName = event.target.parentElement.querySelector('.add-fbItem_name').value;
+            const price = event.target.parentElement.querySelector('.add-fbItem_price').value;
+            const calories = event.target.parentElement.querySelector('.add-fbItem_calories').value;
+            const menuItemId = event.target.parentElement.querySelector('.add-menuitem_Id').value;
+            const data = {
+                    fbDescription: fbitemName,
+                    fbDetailsId: 0,
+                    menuItemId: menuItemId,
+                    price: price,
+                    calories: calories
+                        }
+                apiActions.postRequest("https://localhost:44373/api/fBDetails/", data, menuItems => {
+            document.querySelector('#root').innerHTML = singlemenuitem(menuItems);
+                })
+            }
+    })
+    
 
 }
 
