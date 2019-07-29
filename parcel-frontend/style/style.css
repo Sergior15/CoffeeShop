@@ -68,11 +68,13 @@ li {
     justify-content: center;
 }
 
-#picture img{
+#picture {
     display: flex;
-    align-items: center; 
+    justify-content: center; 
     width: 80%;
     height: 400px;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 header,
@@ -83,3 +85,15 @@ footer{
     padding-bottom: 20px;
     padding-top: 20px;    
 }
+flavor {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 30vw;
+    text-align: left;
+    margin-bottom: 1vh;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+ 
