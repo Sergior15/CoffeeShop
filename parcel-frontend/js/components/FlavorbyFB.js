@@ -1,6 +1,6 @@
 export default function FlavorbyFB(flavorbyid, fbDetailsId){
     return `
-    <h3> Flavors </h3>
+    <h2> Flavors </h2>
     <flavors>
     ${flavorbyid.map(flavor => {
         return `

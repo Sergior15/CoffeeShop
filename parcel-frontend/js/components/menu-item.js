@@ -1,12 +1,12 @@
 export default function MenuItems(menuItems){
     return `
-    <h1>Menu Items</h1>
+    <h2>Menu Items</h2>
     <menuitems>
         ${menuItems.map(menuItem => {
         return `
             <menuitems>
                 <an${menuItem.foodorBev}</an>
-                <img class='select-menuItemId__select' src=${menuItem.image}>
+                <div id= 'picture'><img class='select-menuItemId__select ' src=${menuItem.image}></div>
                 <input class='select-menuItem__id' type='hidden' value="${menuItem.menuItemId}">                                           
                 <menuiteminput>
                 <input class='delete-menuItem__id' type='hidden' value="${menuItem.menuItemId}">

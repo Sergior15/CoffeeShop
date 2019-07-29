@@ -1,6 +1,6 @@
 export default function FbDetail (fbtypes){
     return `
-    <h1>Food and Beverages</h1>
+    <h2>Food and Beverages</h2>
     <fbitems>
         ${fbtypes.map(fbDetails => {
         return `
