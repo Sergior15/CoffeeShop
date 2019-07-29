@@ -11,7 +11,7 @@ export default function singlemenuitem(singleMenuItem){
             return `
                 <li>
                     <input class='fbDetail_Id' type= 'hidden' value='${fbtype.fBDetailsId}'>
-                    <h4 class='edit-fbDetails_description'>${fbtype.fbDescription}</h4>
+                    <h4 class='fbDetails_description'>${fbtype.fbDescription}</h4>
                     <h4 class='fbDetail_price'>$ ${fbtype.price}</h4>
                     <h4 class='fbDetail_calories'>${fbtype.calories} Calories</h4>
                     </li>

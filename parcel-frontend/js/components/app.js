@@ -1,9 +1,10 @@
 import Home from './home';
 import MenuItems from './menu-item';
 import apiActions from '../api/api-actions';
-import singlemenuitem from './singlemenu-item';
 import FbDetail from './fb-type';
 import Flavors from './flavor';
+import DetailbyMenuItem from './DetailbyMenuItem';
+import FlavorByFB from './FlavorbyFB';
 
 
 pageBuild();
@@ -13,6 +14,8 @@ function pageBuild(){
     menuItems();
     fbDetail();
     flavors();
+    fbByMenuItem();
+    flavorbyFB();
     
 }
 
@@ -77,15 +80,7 @@ function menuItems(){
         }
     })
 
-    document.getElementById('root').addEventListener('click', function(){
-        if (event.target.classList.contains('select-menuItemId__select')){
-            const menuitemId = event.target.parentElement.querySelector('.select-menuItem__id').value
-            apiActions.getRequest('https://localhost:44373/api/menuItems/'+ menuitemId, 
-            MenuItem =>{
-                document.querySelector('#root').innerHTML = singlemenuitem(MenuItem)
-            })
-        }
-    })
+    
 };
 function fbDetail(){
     
@@ -96,25 +91,149 @@ function fbDetail(){
             app.innerHTML = FbDetail(fbDets);
         })
     })
-     document.querySelector('#root').addEventListener("click", function(){
-        if(event.target.classList.contains('add-fbItem_submit')){
-            const fbitemName = event.target.parentElement.querySelector('.add-fbItem_name').value;
-            const price = event.target.parentElement.querySelector('.add-fbItem_price').value;
-            const calories = event.target.parentElement.querySelector('.add-fbItem_calories').value;
-            const menuItemId = event.target.parentElement.querySelector('.add-menuitem_Id').value;
-            const data = {
-                    fbDescription: fbitemName,
-                    fbDetailsId: 0,
-                    menuItemId: menuItemId,
-                    price: price,
-                    calories: calories
-                        }
-                apiActions.postRequest("https://localhost:44373/api/fBDetails/", data, menuItems => {
-            document.querySelector('#root').innerHTML = singlemenuitem(menuItems);
-                })
-            }
-    })
+
+    document.querySelector('#root').addEventListener("click", function() {
+        if (event.target.classList.contains("select-fbDetail__select")) {
+        const detailsId = event.target.parentElement.querySelector(".select-fbDetail__id")
+            .value;
+            console.log(detailsId)
+        apiActions.getRequest("https://localhost:44373/api/flavors/"+ detailsId,
+            albums => {
+                document.querySelector('#root').innerHTML = FlavorByFB(albums);
+        },           
+        );
+    }
+  });
+}    
     
+
+
+function fbByMenuItem(){
+    
+    document.querySelector('#root').addEventListener("click", function() {
+        if (event.target.classList.contains("select-menuItemId__select")) {
+          const menuItemId = event.target.parentElement.querySelector(".select-menuItem__id")
+            .value;
+            console.log(menuItemId)
+          apiActions.getRequest("https://localhost:44373/api/fbDetails/"+ menuItemId,
+            fbDetails => {
+                document.querySelector('#root').innerHTML = DetailbyMenuItem(fbDetails, menuItemId);
+            },           
+            );
+        }
+      });
+
+      document.querySelector('#root').addEventListener("click", function(){
+        if(event.target.classList.contains('add-fbDetail_submit')){
+           const menu = event.target.parentElement.querySelector('.add-fbDetail_menuItemId').value;
+           const pri = event.target.parentElement.querySelector('.add-fbDetail_price').value;
+           const cal = event.target.parentElement.querySelector('.add-fbDetail_calories').value;
+           const description = event.target.parentElement.querySelector('.add-fbDetail_description').value;
+           const data = {
+           menuItemId: menu, 
+           albumId: 0,
+           fBDescription: description,
+           Calories: cal,
+           Price: pri
+           }
+           apiActions.postRequest("https://localhost:44373/api/fbDetails/", data, detaillist => {
+            console.log(detaillist)
+            document.querySelector('#root').innerHTML = DetailbyMenuItem(detaillist, data.menuItemId);
+           })      
+       }
+      })
+
+   document.querySelector('#root').addEventListener("click", function() {
+    if (event.target.classList.contains("delete-fbDetailId__delete")) {
+      const detail = event.target.parentElement.querySelector(".delete-fbDetail__id")
+        .value;
+      apiActions.deleteRequest("https://localhost:44373/api/fbDetails/"+ detail, detail,
+        details => {
+            document.querySelector('#root').innerHTML = DetailbyMenuItem(details);
+        },           
+        );
+    }
+  });
+
+  document.querySelector('#root').addEventListener("click", function(){
+    if(event.target.classList.contains('edit-fbDetail_submit')){
+        const menu = event.target.parentElement.querySelector('.edit-fbDetail_menuItemId').value;
+        const detail = event.target.parentElement.querySelector('.edit-fbDetail_fbDetailId').value;
+        const description = event.target.parentElement.querySelector('.edit-fbDetail_description').value;
+        const pri = event.target.parentElement.querySelector('.edit-fbDetail_price').value;
+        const cal = event.target.parentElement.querySelector('.edit-fbDetail_calories').value;
+        const data = {
+            menuItemId: menu,
+            fbDetailsId: detail,
+            fBDescription: description,
+            price: pri,
+            calories: cal
+        }
+    apiActions.putRequest("https://localhost:44373/api/fbDetails/"+ detail, data, detailslist => {
+        document.querySelector('#root').innerHTML = DetailbyMenuItem(detailslist);
+    })
+    }
+   })
+
+}
+
+function flavorbyFB(){
+    
+    document.querySelector('#root').addEventListener("click", function() {
+        if (event.target.classList.contains("select-fbDetailId_select")) {
+          const detailId = event.target.parentElement.querySelector(".select-fbDetail__id")
+            .value;
+            console.log(detailId)
+          apiActions.getRequest("https://localhost:44373/api/flavors/"+ detailId,
+            flavors => {
+                document.querySelector('#root').innerHTML = FlavorByFB(flavors, detailId);
+            },           
+            );
+        }
+    });
+
+    document.querySelector('#root').addEventListener("click", function(){
+        if(event.target.classList.contains('add-flavor_submit')){
+            const details = event.target.parentElement.querySelector('.add-flavor_fbDetailsId').value;
+            const name = event.target.parentElement.querySelector('.add-flavor_flavorname').value;
+            const data = {
+                flavorId: 0,
+                fbDetailsId: details,
+                flavorName: name,
+            }
+            apiActions.postRequest("https://localhost:44373/api/flavors", data, flavors => {
+                document.querySelector('#root').innerHTML = FlavorByFB(flavors, data.fbDetailsId);
+            })
+        }
+    })
+
+    document.querySelector('#root').addEventListener("click", function() {
+        if (event.target.classList.contains("delete-flavorId__delete")) {
+          const flavor = event.target.parentElement.querySelector(".delete-flavor__id")
+            .value;
+          apiActions.deleteRequest("https://localhost:44373/api/flavors/"+ flavor, flavor,
+            flavors => {
+                document.querySelector('#root').innerHTML = FlavorByFB(flavors);
+            },           
+            );
+        }
+      });
+
+    document.querySelector('#root').addEventListener("click", function(){
+        if(event.target.classList.contains('edit-flavor_submit')){
+            const detail = event.target.parentElement.querySelector('.edit-flavor_fbDetailsId').value;
+            const flavor = event.target.parentElement.querySelector('.edit-flavor__flavorId').value;
+            const name = event.target.parentElement.querySelector('.edit-flavor_flavorname').value;
+            const data = {
+                fbDetailsId: detail,
+                flavorId: flavor,
+                flavorName: name         
+            }
+        apiActions.putRequest("https://localhost:44373/api/flavors/"+ flavor, data, flavors => {
+            document.querySelector('#root').innerHTML = FlavorByFB(flavors);
+        })
+        }
+       })
 
 }
 

@@ -30,9 +30,18 @@ namespace CoffeeShop.Controller_s_
 
         // GET: api/MenuItems/5
         [HttpGet("{id}")]
-        public ActionResult<MenuItem> GetMenuItem(int id)
+        public async Task<IActionResult> GetMenuItem([FromRoute] int id)
         {
-            return _context.MenuItems.Single(a => a.MenuItemId == id);
+
+
+            var menuitem = await _context.MenuItems.FindAsync(id);
+
+            if (menuitem == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(menuitem);
         }
 
         // PUT: api/MenuItems/5
