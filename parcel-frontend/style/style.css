@@ -8,8 +8,12 @@
 
 h1, h2, h3 {
     color: #61111f;
-    font-size: 30px;
     text-align: center;
+   
+    text-shadow: 10px 10px 5px grey;
+}
+h2, h3{
+    font-size: 30px;
 }
 h1{
     font-size: 80px; 
@@ -18,6 +22,7 @@ h1{
 nav ul li {
     background-color:#90dff5;
     padding: 20px;
+    font-size: 20px;
 }
 
 nav ul{
@@ -28,8 +33,9 @@ nav ul{
     max-width: 50%;
     justify-content: space-around;
     background-color: #90dff5;
-    height: 8vh;
+    height: 15vh;
     text-align: center;
+    box-shadow: 10px 10px 5px grey;
 }
 nav ul li:hover {
     background-color:#61111f;
@@ -39,7 +45,7 @@ nav ul li:hover {
 li {
     list-style: none;
 }
-#home p{
+.home p{
     display: flex;
     font-size: 20px;
     text-align: center;
@@ -66,15 +72,16 @@ li {
     
     display: flex;
     justify-content: center;
+    
 }
 
-#picture {
+#picture img {    
     display: flex;
-    justify-content: center; 
-    width: 80%;
-    height: 400px;
-    padding-left: 50px;
-    padding-right: 50px;
+    justify-content: center;
+    width: 800px;
+    height: 600px;
+    margin-top: 30px;
+    
 }
 
 header,
@@ -85,15 +92,33 @@ footer{
     padding-bottom: 20px;
     padding-top: 20px;    
 }
-flavor {
+flavor, 
+menuitems, 
+mainflavor,
+fbdetail {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-items: center;
     width: 30vw;
     text-align: left;
     margin-bottom: 1vh;
     padding-left: 2px;
     padding-right: 2px;
+    text-align: center;
+}
+
+fbdetail{
+    font-weight: bold;
+}
+flavor{
+    line-height: 40px;
+}
+fbdetail h3{
+    font-size: 25px;
+}
+#flavor flavor{
+    text-indent: 3em;
+    text-align: center;
 }
 
  

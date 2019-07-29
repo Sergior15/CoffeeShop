@@ -4,16 +4,16 @@ export default function FbDetail (fbtypes){
     <fbitems>
         ${fbtypes.map(fbDetails => {
         return `
-            <album>
-                <p>${fbDetails.fbDescription}</p>
+            <fbdetail>
+                <h3>${fbDetails.fbDescription}</h3>
                 <arl> $${fbDetails.price}</arl> 
                 <p>${fbDetails.calories} calories</p>
-                <input class='select-fbDetail__id' type='hidden' value="${fbDetails.albumId}">
+                <input class='select-fbDetail__id' type='hidden' value="${fbDetails.fBDetailId}">
                 <button class="select-fbDetail_select">View Flavors</button>
-            </album>                         
+            </fbdetail>                         
         `;
     })
     .join("")}
-    </albums>
+    </fbitems>
 `
 };
